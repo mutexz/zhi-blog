@@ -1,0 +1,84 @@
+---
+import { SITE_TITLE } from '../consts';
+import { sitePath } from '../utils/sitePath';
+
+const pathname = Astro.url.pathname;
+
+function normalized(s: string) {
+	return s.replace(/\/+$/, '') || '/';
+}
+
+function active(route: '/' | '/articles/' | '/notes/' | '/about/') {
+	const target = normalized(sitePath(route));
+	const p = normalized(pathname);
+	if (route === '/') return p === target;
+	return p === target || p.startsWith(target + '/');
+}
+---
+
+<div
+	class="border-b border-zinc-200/80 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/80"
+>
+	<header class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 md:px-6">
+		<a
+			href={sitePath('/')}
+			class="font-serif text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">{SITE_TITLE}</a
+		>
+		<nav
+			class="flex flex-wrap items-center gap-1 text-sm font-medium text-zinc-600 dark:text-zinc-400"
+			aria-label="主导航"
+		>
+			<a
+				href={sitePath('/')}
+				class:list={[
+					'cursor-pointer rounded-lg px-3 py-2',
+					active('/') ? 'text-zinc-900 dark:text-zinc-100' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900',
+				]}>首页</a
+			>
+			<a
+				href={sitePath('/articles/')}
+				class:list={[
+					'cursor-pointer rounded-lg px-3 py-2',
+					active('/articles/') ? 'text-zinc-900 dark:text-zinc-100' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900',
+				]}>文章</a
+			>
+			<a
+				href={sitePath('/notes/')}
+				class:list={[
+					'cursor-pointer rounded-lg px-3 py-2',
+					active('/notes/') ? 'text-zinc-900 dark:text-zinc-100' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900',
+				]}>笔记</a
+			>
+			<a
+				href={sitePath('/about/')}
+				class:list={[
+					'cursor-pointer rounded-lg px-3 py-2',
+					active('/about/') ? 'text-zinc-900 dark:text-zinc-100' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900',
+				]}>关于</a
+			>
+		</nav>
+		<button
+			type="button"
+			id="theme-toggle"
+			class="cursor-pointer rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs font-medium text-zinc-700 shadow-sm outline-none ring-zinc-400 hover:bg-zinc-50 focus-visible:ring-2 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+			aria-label="切换深色模式"
+		>
+			深浅色
+		</button>
+	</header>
+</div>
+
+<script is:inline>
+	(function () {
+		var key = 'zhi-blog-theme';
+		var root = document.documentElement;
+		var stored = localStorage.getItem(key);
+		if (stored === 'dark') root.classList.add('dark');
+		else if (stored === 'light') root.classList.remove('dark');
+		else if (window.matchMedia('(prefers-color-scheme: dark)').matches) root.classList.add('dark');
+		document.getElementById('theme-toggle')?.addEventListener('click', function () {
+			root.classList.toggle('dark');
+			localStorage.setItem(key, root.classList.contains('dark') ? 'dark' : 'light');
+		});
+	})();
+</script>

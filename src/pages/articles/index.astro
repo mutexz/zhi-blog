@@ -1,0 +1,109 @@
+---
+import { getCollection } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { sitePath } from '../../utils/sitePath';
+
+const posts = (await getCollection('articles')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags || []))];
+---
+
+<SiteLayout title={`文章 · ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main id="main" class="mx-auto max-w-5xl px-4 py-12 md:px-6 md:py-16">
+		<h1 class="font-serif text-3xl font-semibold tracking-tight md:text-4xl">文章</h1>
+		<p class="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">长文列表，可按标签筛选（纯前端）。</p>
+
+		<div class="mt-8 flex flex-wrap gap-2" role="tablist" aria-label="标签筛选">
+			<button
+				type="button"
+				data-filter="all"
+				class="filter-chip cursor-pointer rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium outline-none ring-emerald-600 focus-visible:ring-2 dark:border-zinc-700 dark:bg-zinc-900"
+				>全部</button
+			>
+			{
+				allTags.map((tag) => (
+					<button
+						type="button"
+						data-filter={tag}
+						class="filter-chip cursor-pointer rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-medium outline-none ring-emerald-600 focus-visible:ring-2 dark:border-zinc-700 dark:bg-zinc-900"
+					>
+						{tag}
+					</button>
+				))
+			}
+		</div>
+
+		<ul id="article-list" class="mt-10 divide-y divide-zinc-200 dark:divide-zinc-800">
+			{
+				posts.map((post) => {
+					const tagStr = (post.data.tags || []).join(' ');
+					return (
+						<li class="article-row py-6" data-tags={tagStr}>
+							<a href={sitePath(`/articles/${post.id}/`)} class="group block cursor-pointer">
+								<p class="text-xs font-medium text-emerald-700 dark:text-emerald-400">
+									{(post.data.tags || []).join(' · ') || '文章'}
+									{post.data.readTime && ` · ${post.data.readTime}`}
+								</p>
+								<h2
+									class="mt-1 font-serif text-xl font-semibold decoration-2 underline-offset-[0.28em] transition-colors group-hover:text-emerald-800 group-hover:underline group-hover:decoration-emerald-600 dark:group-hover:text-emerald-300 dark:group-hover:decoration-emerald-400"
+								>
+									{post.data.title}
+								</h2>
+								<p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{post.data.description}</p>
+								<p class="mt-3 text-xs text-zinc-500">
+									<time datetime={post.data.pubDate.toISOString()}>
+										{post.data.pubDate.toLocaleDateString('zh-CN')}
+									</time>
+								</p>
+							</a>
+						</li>
+					);
+				})
+			}
+		</ul>
+		<p id="empty-hint" class="mt-6 hidden text-sm text-zinc-500">该标签下暂无文章。</p>
+	</main>
+</SiteLayout>
+
+<script is:inline>
+	(function () {
+		var rows = Array.from(document.querySelectorAll('.article-row'));
+		var chips = Array.from(document.querySelectorAll('.filter-chip'));
+		var empty = document.getElementById('empty-hint');
+		function setActive(filter) {
+			chips.forEach(function (c) {
+				var f = c.getAttribute('data-filter');
+				var on = f === filter;
+				if (on) {
+					c.classList.add('bg-zinc-900', 'text-white', 'border-zinc-900');
+					c.classList.add('dark:bg-zinc-100', 'dark:text-zinc-900', 'dark:border-zinc-100');
+				} else {
+					c.classList.remove('bg-zinc-900', 'text-white', 'border-zinc-900');
+					c.classList.remove('dark:bg-zinc-100', 'dark:text-zinc-900', 'dark:border-zinc-100');
+				}
+			});
+		}
+		function apply(filter) {
+			var n = 0;
+			rows.forEach(function (row) {
+				var tags = (row.getAttribute('data-tags') || '').split(/\s+/).filter(Boolean);
+				var show = filter === 'all' || tags.indexOf(filter) !== -1;
+				row.classList.toggle('hidden', !show);
+				if (show) n++;
+			});
+			if (empty) empty.classList.toggle('hidden', n !== 0);
+		}
+		chips.forEach(function (chip) {
+			chip.addEventListener('click', function () {
+				var f = chip.getAttribute('data-filter') || 'all';
+				setActive(f);
+				apply(f);
+			});
+		});
+		setActive('all');
+		apply('all');
+	})();
+</script>

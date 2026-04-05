@@ -1,0 +1,43 @@
+---
+import FormattedDate from '../components/FormattedDate.astro';
+import { sitePath } from '../utils/sitePath';
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	noteType: '摘录' | '链接' | '短想法' | '工具';
+}
+
+const { title, description, pubDate, noteType } = Astro.props;
+---
+
+<main id="main" class="mx-auto max-w-2xl px-4 py-12 md:px-6 md:py-16">
+	<p class="text-sm text-zinc-500">
+		<a
+			href={sitePath('/notes/')}
+			class="cursor-pointer font-medium text-emerald-700 hover:underline dark:text-emerald-400"
+			>← 笔记流</a
+		>
+	</p>
+	<article>
+		<header class="mt-6">
+			<div class="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+				<time datetime={pubDate.toISOString()}>
+					<FormattedDate date={pubDate} />
+				</time>
+				<span
+					class="rounded-full bg-zinc-100 px-2 py-0.5 dark:bg-zinc-800"
+					>{noteType}</span
+				>
+			</div>
+			<h1 class="mt-3 font-serif text-2xl font-semibold tracking-tight text-zinc-900 md:text-3xl dark:text-zinc-50">
+				{title}
+			</h1>
+			<p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
+		</header>
+		<div class="md-content mt-8">
+			<slot />
+		</div>
+	</article>
+</main>

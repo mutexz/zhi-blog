@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { sitePath } from '../utils/sitePath';
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	heroImage?: ImageMetadata;
+	tags?: string[];
+	readTime?: string;
+}
+
+const { title, description, pubDate, updatedDate, heroImage, tags = [], readTime } = Astro.props;
+---
+
+<main id="main" class="mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
+	<p class="text-sm text-zinc-500">
+		<a
+			href={sitePath('/articles/')}
+			class="cursor-pointer font-medium text-emerald-700 hover:underline dark:text-emerald-400"
+			>← 文章列表</a
+		>
+	</p>
+	<article>
+		<header class="mt-6 border-b border-zinc-200 pb-8 dark:border-zinc-800">
+			{
+				tags.length > 0 && (
+					<p class="text-xs font-medium uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
+						{tags.join(' · ')}
+						{readTime && ` · ${readTime}`}
+					</p>
+				)
+			}
+			{
+				tags.length === 0 && readTime && (
+					<p class="text-xs font-medium uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
+						{readTime}
+					</p>
+				)
+			}
+			<h1 class="mt-3 font-serif text-3xl font-semibold tracking-tight text-zinc-900 md:text-4xl dark:text-zinc-50">
+				{title}
+			</h1>
+			<p class="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">{description}</p>
+			<div class="mt-4 flex flex-wrap gap-2 text-sm text-zinc-500">
+				<FormattedDate date={pubDate} />
+				{
+					updatedDate && (
+						<span class="italic">
+							更新于 <FormattedDate date={updatedDate} />
+						</span>
+					)
+				}
+			</div>
+		</header>
+		{
+			heroImage && (
+				<div class="mt-10 overflow-hidden rounded-2xl border border-zinc-200 shadow-sm dark:border-zinc-800">
+					<Image width={1200} height={630} src={heroImage} alt="" class="w-full object-cover" />
+				</div>
+			)
+		}
+		<div class="md-content mt-10">
+			<slot />
+		</div>
+	</article>
+</main>

@@ -1,0 +1,32 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('articles');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+
+type Props = CollectionEntry<'articles'>;
+const post = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate, heroImage, tags, readTime } = post.data;
+---
+
+<SiteLayout title={`${title} · 知行小站`} description={description}>
+	<ArticleLayout
+		title={title}
+		description={description}
+		pubDate={pubDate}
+		updatedDate={updatedDate}
+		heroImage={heroImage}
+		tags={tags}
+		readTime={readTime}
+	>
+		<Content />
+	</ArticleLayout>
+</SiteLayout>

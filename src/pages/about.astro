@@ -1,0 +1,34 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<SiteLayout title={`关于 · ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+	<main id="main" class="mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
+		<h1 class="font-serif text-3xl font-semibold tracking-tight md:text-4xl">关于</h1>
+		<p class="mt-4 leading-relaxed text-zinc-600 dark:text-zinc-400">
+			本站使用 <strong class="font-medium text-zinc-800 dark:text-zinc-200">Astro</strong> 构建，文章与笔记为仓库内的 <strong
+				class="font-medium text-zinc-800 dark:text-zinc-200">Markdown</strong
+			> 文件，构建产物为纯静态 HTML，可部署在 Vercel、Netlify、Cloudflare Pages、GitHub Pages 等任意静态托管。
+		</p>
+
+		<h2 class="mt-10 font-serif text-xl font-semibold text-zinc-900 dark:text-zinc-50">上线前请检查</h2>
+		<ul class="mt-4 list-inside list-disc space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+			<li>
+				在仓库根目录设置环境变量 <code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">SITE=https://你的域名</code> 后再执行 <code
+					class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">npm run build</code
+				>，或在 <code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">astro.config.mjs</code> 中直接修改默认 <code
+					class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">site</code
+				>，以便 RSS、站点地图与 Open Graph 使用正确绝对地址。
+			</li>
+			<li>替换 <code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">src/consts.ts</code> 中的站点标题与描述。</li>
+			<li>在 <code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">public/</code> 中更新 favicon 与需要的静态资源。</li>
+		</ul>
+
+		<h2 class="mt-10 font-serif text-xl font-semibold text-zinc-900 dark:text-zinc-50">内容目录</h2>
+		<ul class="mt-4 list-inside list-disc space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+			<li><code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">src/content/articles/</code> — 长文</li>
+			<li><code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">src/content/notes/</code> — 笔记</li>
+		</ul>
+	</main>
+</SiteLayout>

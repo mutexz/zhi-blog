@@ -1,0 +1,30 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	ogImagePath?: string;
+}
+
+const { title, description, ogImagePath } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<BaseHead title={title} description={description} ogImagePath={ogImagePath} />
+	</head>
+	<body class="min-h-screen bg-zinc-50 font-sans text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
+		<a
+			href="#main"
+			class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:shadow focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-zinc-900 dark:focus:bg-zinc-900 dark:focus:outline-zinc-100"
+			>跳到正文</a
+		>
+		<Header />
+		<slot />
+		<Footer />
+	</body>
+</html>

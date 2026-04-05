@@ -1,0 +1,24 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import NoteLayout from '../../layouts/NoteLayout.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+export async function getStaticPaths() {
+	const notes = await getCollection('notes');
+	return notes.map((note) => ({
+		params: { slug: note.id },
+		props: note,
+	}));
+}
+
+type Props = CollectionEntry<'notes'>;
+const note = Astro.props;
+const { Content } = await render(note);
+const { title, description, pubDate, noteType } = note.data;
+---
+
+<SiteLayout title={`${title} · 知行小站`} description={description}>
+	<NoteLayout title={title} description={description} pubDate={pubDate} noteType={noteType}>
+		<Content />
+	</NoteLayout>
+</SiteLayout>
