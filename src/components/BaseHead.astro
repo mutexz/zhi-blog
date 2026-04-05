@@ -1,18 +1,36 @@
 ---
 import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import { SITE_TITLE, SITE_AUTHOR, SITE_KEYWORDS } from '../consts';
 import { absoluteUrl, sitePath } from '../utils/sitePath';
 
 interface Props {
 	title: string;
 	description: string;
-	/** 绝对路径，如 /favicon.svg */
 	ogImagePath?: string;
+	pubDate?: Date;
+	updatedDate?: Date;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const { title, description, ogImagePath = '/favicon.svg' } = Astro.props;
+const { title, description, ogImagePath = '/og-default.png', pubDate, updatedDate } = Astro.props;
 const ogImage = absoluteUrl(ogImagePath, Astro.site);
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': pubDate ? 'BlogPosting' : 'WebSite',
+	name: title,
+	description,
+	url: canonicalURL.href,
+	...(pubDate ? {
+		datePublished: pubDate.toISOString(),
+		...(updatedDate && { dateModified: updatedDate.toISOString() }),
+		author: { '@type': 'Person', name: SITE_AUTHOR },
+		publisher: { '@type': 'Person', name: SITE_AUTHOR },
+	} : {
+		author: { '@type': 'Person', name: SITE_AUTHOR },
+	}),
+	inLanguage: 'zh-CN',
+};
 ---
 
 <meta charset="utf-8" />
@@ -20,8 +38,13 @@ const ogImage = absoluteUrl(ogImagePath, Astro.site);
 <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />
 <link rel="icon" href={sitePath('/favicon.ico')} />
 <link rel="sitemap" href={sitePath('/sitemap-index.xml')} />
-<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={absoluteUrl('/rss.xml', Astro.site)} />
 <meta name="generator" content={Astro.generator} />
+
+<meta name="author" content={SITE_AUTHOR} />
+<meta name="keywords" content={SITE_KEYWORDS.join(', ')} />
+<meta name="robots" content="index, follow" />
+<meta name="theme-color" content="#047857" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#059669" media="(prefers-color-scheme: dark)" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,15 +59,20 @@ const ogImage = absoluteUrl(ogImagePath, Astro.site);
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content={pubDate ? 'article' : 'website'} />
 <meta property="og:url" content={canonicalURL.href} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
 <meta property="og:locale" content="zh_CN" />
+<meta property="og:site_name" content={SITE_TITLE} />
+{pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
+{updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={canonicalURL.href} />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

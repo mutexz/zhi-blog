@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zhi-blog.pages.dev/sitemap-index.xml

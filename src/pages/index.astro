@@ -18,14 +18,14 @@ const notes = (await getCollection('notes'))
 
 <SiteLayout title={`${SITE_TITLE} · 个人知识分享`} description={SITE_DESCRIPTION}>
 	<section class="mx-auto max-w-5xl px-4 pb-16 pt-14 md:px-6 md:pt-20">
-		<p class="text-sm font-medium uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
-			Personal knowledge hub
+		<p class="text-sm font-medium tracking-widest text-emerald-700 dark:text-emerald-400">
+			测试 · AI · 思考
 		</p>
 		<h1 class="mt-3 font-serif text-4xl font-semibold tracking-tight text-zinc-900 md:text-5xl dark:text-zinc-50">
-			写作、笔记与摘录，放在同一个地方
+			知行合一，以文字记录成长
 		</h1>
 		<p class="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-			长文沉淀方法，短笔记记录灵感。内容由 Markdown 编写，构建为纯静态页面，可直接部署到任意托管平台。
+			一个关注软件测试、AI 应用与个人成长的技术博客。长文沉淀方法论，短笔记捕捉灵感，在实践中持续学习与分享。
 		</p>
 		<div class="mt-8 flex flex-wrap gap-3">
 			<a
@@ -51,34 +51,38 @@ const notes = (await getCollection('notes'))
 					>全部文章 →</a
 				>
 			</div>
+		{featured.length > 0 ? (
 			<div class="mt-8 grid gap-6 md:grid-cols-3">
-				{
-					featured.map((post) => (
-						<article class="flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
-							<p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-								{post.data.tags?.join(' · ') || '文章'}
-								{post.data.readTime && ` · ${post.data.readTime}`}
-							</p>
-							<h3 class="mt-2 font-serif text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-								<a
-									href={sitePath(`/articles/${post.id}/`)}
-									class="cursor-pointer decoration-2 underline-offset-[0.28em] transition-colors hover:text-emerald-800 hover:underline hover:decoration-emerald-600 dark:hover:text-emerald-300 dark:hover:decoration-emerald-400"
-								>
-									{post.data.title}
-								</a>
-							</h3>
-							<p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-								{post.data.description}
-							</p>
-							<p class="mt-4 text-xs text-zinc-500">
-								<time datetime={post.data.pubDate.toISOString()}>
-									{post.data.pubDate.toLocaleDateString('zh-CN')}
-								</time>
-							</p>
-						</article>
-					))
-				}
+				{featured.map((post) => (
+					<article class="flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
+						<p class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+							{post.data.tags?.join(' · ') || '文章'}
+							{post.data.readTime && ` · ${post.data.readTime}`}
+						</p>
+						<h3 class="mt-2 font-serif text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+							<a
+								href={sitePath(`/articles/${post.id}/`)}
+								class="cursor-pointer decoration-2 underline-offset-[0.28em] transition-colors hover:text-emerald-800 hover:underline hover:decoration-emerald-600 dark:hover:text-emerald-300 dark:hover:decoration-emerald-400"
+							>
+								{post.data.title}
+							</a>
+						</h3>
+						<p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+							{post.data.description}
+						</p>
+						<p class="mt-4 text-xs text-zinc-500">
+							<time datetime={post.data.pubDate.toISOString()}>
+								{post.data.pubDate.toLocaleDateString('zh-CN')}
+							</time>
+						</p>
+					</article>
+				))}
 			</div>
+		) : (
+			<div class="mt-8 rounded-2xl border border-dashed border-zinc-300 bg-zinc-50/50 p-10 text-center dark:border-zinc-700 dark:bg-zinc-900/40">
+				<p class="text-sm text-zinc-500 dark:text-zinc-400">文章正在酝酿中，敬请期待...</p>
+			</div>
+		)}
 		</div>
 	</section>
 
@@ -92,47 +96,46 @@ const notes = (await getCollection('notes'))
 					>全部笔记 →</a
 				>
 			</div>
+		{notes.length > 0 ? (
 			<ul class="mt-8 divide-y divide-zinc-200 dark:divide-zinc-800">
-				{
-					notes.map((n) => (
-						<li class="flex flex-col gap-1 py-5 md:flex-row md:items-baseline md:gap-6">
-							<span class="shrink-0 text-xs font-medium text-zinc-500">
-								<time datetime={n.data.pubDate.toISOString()}>{n.data.pubDate.toLocaleDateString('zh-CN')}</time>
-							</span>
-							<div>
-								<a
-									href={sitePath(`/notes/${n.id}/`)}
-									class="cursor-pointer font-medium text-zinc-900 hover:underline dark:text-zinc-100"
-								>
-									{n.data.title}
-								</a>
-								<p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{n.data.description}</p>
-							</div>
-						</li>
-					))
-				}
+				{notes.map((n) => (
+					<li class="flex flex-col gap-1 py-5 md:flex-row md:items-baseline md:gap-6">
+						<span class="shrink-0 text-xs font-medium text-zinc-500">
+							<time datetime={n.data.pubDate.toISOString()}>{n.data.pubDate.toLocaleDateString('zh-CN')}</time>
+						</span>
+						<div>
+							<a
+								href={sitePath(`/notes/${n.id}/`)}
+								class="cursor-pointer font-medium text-zinc-900 hover:underline dark:text-zinc-100"
+							>
+								{n.data.title}
+							</a>
+							<p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{n.data.description}</p>
+						</div>
+					</li>
+				))}
 			</ul>
+		) : (
+			<div class="mt-8 rounded-2xl border border-dashed border-zinc-300 bg-zinc-50/50 p-10 text-center dark:border-zinc-700 dark:bg-zinc-900/40">
+				<p class="text-sm text-zinc-500 dark:text-zinc-400">笔记正在记录中，敬请期待...</p>
+			</div>
+		)}
 		</div>
 	</section>
 
-	<section class="border-t border-zinc-200 bg-zinc-100/80 py-14 dark:border-zinc-800 dark:bg-zinc-900/50">
+	<section class="border-t border-zinc-200 bg-zinc-100/80 py-10 dark:border-zinc-800 dark:bg-zinc-900/50">
 		<div class="mx-auto max-w-5xl px-4 md:px-6">
-			<div
-				class="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 md:flex md:items-center md:justify-between md:gap-10"
-			>
-				<div>
-					<h2 class="font-serif text-xl font-semibold text-zinc-900 dark:text-zinc-50">订阅更新</h2>
-					<p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-						推荐使用 <a href={sitePath('/rss.xml')} class="text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-400"
-							>RSS</a
-						>；邮件订阅可后续接入第三方服务。
-					</p>
-				</div>
-				<a
-					href={sitePath('/rss.xml')}
-					class="mt-6 inline-flex cursor-pointer items-center justify-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold text-white outline-none ring-emerald-500 hover:bg-emerald-800 focus-visible:ring-2 md:mt-0 dark:bg-emerald-600 dark:hover:bg-emerald-500"
-					>打开 RSS</a
-				>
+			<div class="flex flex-wrap items-center justify-center gap-3 text-sm">
+				<span class="text-zinc-500 dark:text-zinc-400">关注方向：</span>
+				<span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 font-medium text-emerald-800 dark:border-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+					<span class="text-base">🧪</span> 软件测试
+				</span>
+				<span class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 font-medium text-blue-800 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+					<span class="text-base">🤖</span> AI 与大模型
+				</span>
+				<span class="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 font-medium text-amber-800 dark:border-amber-800 dark:bg-amber-900/30 dark:text-amber-300">
+					<span class="text-base">💡</span> 个人感想
+				</span>
 			</div>
 		</div>
 	</section>

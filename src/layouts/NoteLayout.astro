@@ -22,22 +22,28 @@ const { title, description, pubDate, noteType } = Astro.props;
 	</p>
 	<article>
 		<header class="mt-6">
-			<div class="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-				<time datetime={pubDate.toISOString()}>
-					<FormattedDate date={pubDate} />
-				</time>
-				<span
-					class="rounded-full bg-zinc-100 px-2 py-0.5 dark:bg-zinc-800"
-					>{noteType}</span
-				>
-			</div>
+		<div class="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+			<time datetime={pubDate.toISOString()}>
+				<FormattedDate date={pubDate} />
+			</time>
+			<span
+				class="rounded-full bg-zinc-100 px-2 py-0.5 dark:bg-zinc-800"
+				>{noteType}</span
+			>
+			<span class="text-zinc-300 dark:text-zinc-600">|</span>
+			<span id="busuanzi_container_page_pv">
+				阅读 <span id="busuanzi_value_page_pv" class="font-medium">-</span> 次
+			</span>
+		</div>
 			<h1 class="mt-3 font-serif text-2xl font-semibold tracking-tight text-zinc-900 md:text-3xl dark:text-zinc-50">
 				{title}
 			</h1>
 			<p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{description}</p>
 		</header>
-		<div class="md-content mt-8">
-			<slot />
-		</div>
-	</article>
+	<div class="md-content mt-8">
+		<slot />
+	</div>
+</article>
 </main>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

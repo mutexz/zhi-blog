@@ -46,16 +46,20 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], readTime
 				{title}
 			</h1>
 			<p class="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">{description}</p>
-			<div class="mt-4 flex flex-wrap gap-2 text-sm text-zinc-500">
-				<FormattedDate date={pubDate} />
-				{
-					updatedDate && (
-						<span class="italic">
-							更新于 <FormattedDate date={updatedDate} />
-						</span>
-					)
-				}
-			</div>
+		<div class="mt-4 flex flex-wrap items-center gap-2 text-sm text-zinc-500">
+			<FormattedDate date={pubDate} />
+			{
+				updatedDate && (
+					<span class="italic">
+						更新于 <FormattedDate date={updatedDate} />
+					</span>
+				)
+			}
+			<span class="text-zinc-300 dark:text-zinc-600">|</span>
+			<span id="busuanzi_container_page_pv">
+				阅读 <span id="busuanzi_value_page_pv" class="font-medium">-</span> 次
+			</span>
+		</div>
 		</header>
 		{
 			heroImage && (
@@ -64,8 +68,10 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], readTime
 				</div>
 			)
 		}
-		<div class="md-content mt-10">
-			<slot />
-		</div>
-	</article>
+	<div class="md-content mt-10">
+		<slot />
+	</div>
+</article>
 </main>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

@@ -1,34 +1,65 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_TITLE } from '../consts';
 ---
 
-<SiteLayout title={`关于 · ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+<SiteLayout title={`关于 · ${SITE_TITLE}`} description="关于知行小站：一个关注软件测试、AI 应用与个人成长的技术博客。">
 	<main id="main" class="mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
-		<h1 class="font-serif text-3xl font-semibold tracking-tight md:text-4xl">关于</h1>
-		<p class="mt-4 leading-relaxed text-zinc-600 dark:text-zinc-400">
-			本站使用 <strong class="font-medium text-zinc-800 dark:text-zinc-200">Astro</strong> 构建，文章与笔记为仓库内的 <strong
-				class="font-medium text-zinc-800 dark:text-zinc-200">Markdown</strong
-			> 文件，构建产物为纯静态 HTML，可部署在 Vercel、Netlify、Cloudflare Pages、GitHub Pages 等任意静态托管。
-		</p>
+		<h1 class="font-serif text-3xl font-semibold tracking-tight text-zinc-900 md:text-4xl dark:text-zinc-50">关于这个站</h1>
 
-		<h2 class="mt-10 font-serif text-xl font-semibold text-zinc-900 dark:text-zinc-50">上线前请检查</h2>
-		<ul class="mt-4 list-inside list-disc space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
-			<li>
-				在仓库根目录设置环境变量 <code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">SITE=https://你的域名</code> 后再执行 <code
-					class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">npm run build</code
-				>，或在 <code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">astro.config.mjs</code> 中直接修改默认 <code
-					class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">site</code
-				>，以便 RSS、站点地图与 Open Graph 使用正确绝对地址。
+		<div class="mt-8 space-y-6 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+			<p>
+				你好，欢迎来到<strong class="font-medium text-zinc-800 dark:text-zinc-200">知行小站</strong>。
+			</p>
+			<p>
+				我是一名关注<strong class="font-medium text-zinc-800 dark:text-zinc-200">软件测试</strong>和
+				<strong class="font-medium text-zinc-800 dark:text-zinc-200">AI 应用</strong>的技术从业者。这个博客是我记录实践、沉淀思考的地方。
+			</p>
+			<p>
+				站名取自「知行合一」——在技术领域，光看不练假把式，光练不想也容易原地转圈。写下来，是为了更清楚地思考；分享出来，是为了和同路人交流。
+			</p>
+		</div>
+
+		<h2 class="mt-12 font-serif text-xl font-semibold text-zinc-900 dark:text-zinc-50">你会在这里看到什么</h2>
+		<ul class="mt-5 space-y-4">
+			<li class="flex gap-3">
+				<span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-sm dark:bg-emerald-900/40">🧪</span>
+				<div>
+					<p class="font-medium text-zinc-900 dark:text-zinc-100">软件测试</p>
+					<p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">测试策略、自动化实践、质量工程思考，以及 AI 如何改变测试</p>
+				</div>
 			</li>
-			<li>替换 <code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">src/consts.ts</code> 中的站点标题与描述。</li>
-			<li>在 <code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">public/</code> 中更新 favicon 与需要的静态资源。</li>
+			<li class="flex gap-3">
+				<span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-sm dark:bg-blue-900/40">🤖</span>
+				<div>
+					<p class="font-medium text-zinc-900 dark:text-zinc-100">AI 与大模型</p>
+					<p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">LLM 应用落地、AI 测评方法、智能工具的探索与实践</p>
+				</div>
+			</li>
+			<li class="flex gap-3">
+				<span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-sm dark:bg-amber-900/40">💡</span>
+				<div>
+					<p class="font-medium text-zinc-900 dark:text-zinc-100">个人感想</p>
+					<p class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">职业成长、学习方法论、技术人的反思与随想</p>
+				</div>
+			</li>
 		</ul>
 
-		<h2 class="mt-10 font-serif text-xl font-semibold text-zinc-900 dark:text-zinc-50">内容目录</h2>
-		<ul class="mt-4 list-inside list-disc space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
-			<li><code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">src/content/articles/</code> — 长文</li>
-			<li><code class="rounded bg-zinc-200 px-1 dark:bg-zinc-800">src/content/notes/</code> — 笔记</li>
-		</ul>
+		<h2 class="mt-12 font-serif text-xl font-semibold text-zinc-900 dark:text-zinc-50">关于本站</h2>
+		<div class="mt-5 rounded-2xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-800 dark:bg-zinc-900/40">
+			<ul class="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+				<li>使用 <a href="https://astro.build" class="font-medium text-emerald-700 hover:underline dark:text-emerald-400" target="_blank" rel="noopener noreferrer">Astro</a> 构建，纯静态页面，加载快速</li>
+				<li>文章与笔记使用 Markdown 编写，版本化管理</li>
+				<li>部署于 <a href="https://pages.cloudflare.com" class="font-medium text-emerald-700 hover:underline dark:text-emerald-400" target="_blank" rel="noopener noreferrer">Cloudflare Pages</a>，全球 CDN 加速</li>
+			</ul>
+		</div>
+
+		<div class="mt-12 rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+			<p class="text-sm text-zinc-500 dark:text-zinc-400">
+				有想法或建议？欢迎通过
+				<a href="https://github.com" class="font-medium text-emerald-700 hover:underline dark:text-emerald-400" target="_blank" rel="noopener noreferrer">GitHub</a>
+				与我交流。
+			</p>
+		</div>
 	</main>
 </SiteLayout>

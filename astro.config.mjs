@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
-const site = process.env.SITE?.replace(/\/$/, '') || 'https://example.com';
+const site = process.env.SITE?.replace(/\/$/, '') || 'https://zhi-blog.pages.dev';
 /** GitHub Pages 等项目子路径部署时设置，如 /repo-name/ */
 const base = process.env.BASE_PATH || '/';
 
